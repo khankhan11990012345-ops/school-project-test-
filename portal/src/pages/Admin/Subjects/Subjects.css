@@ -1,0 +1,126 @@
+/* Subjects module specific styles */
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.subject-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.subject-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.subject-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 0.75rem;
+  background: rgba(102, 126, 234, 0.1);
+}
+
+.subject-title {
+  flex: 1;
+}
+
+.subject-title h3 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.subject-code {
+  font-size: 0.875rem;
+  color: #666;
+}
+
+.subject-description {
+  color: #666;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.subject-description p {
+  margin: 0;
+}
+
+.subject-stats {
+  display: flex;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(102, 126, 234, 0.05);
+  border-radius: 0.5rem;
+}
+
+.subject-stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.subject-stat-item svg {
+  color: #667eea;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #333;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.subject-teachers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.subject-teachers strong {
+  font-size: 0.875rem;
+  color: #333;
+}
+
+.teachers-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.subject-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.subject-details-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.teachers-list-modal {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+

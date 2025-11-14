@@ -1,0 +1,42 @@
+.page-container {
+  padding: 2rem;
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  color: #333;
+}
+
+.placeholder-content {
+  background: white;
+  padding: 4rem 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.placeholder-content h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.placeholder-content p {
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.placeholder-note {
+  color: #999;
+  font-style: italic;
+  margin-top: 2rem;
+}
+

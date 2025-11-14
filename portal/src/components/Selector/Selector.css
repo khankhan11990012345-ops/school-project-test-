@@ -1,0 +1,69 @@
+/* Universal Selector Component Styles */
+/* All dropdown/select styling is controlled here for consistent theming */
+/* Uses CSS variables from ThemeContext for automatic theme adaptation */
+
+.selector-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.selector-wrapper select {
+  color: var(--theme-text, #333333);
+}
+
+/* Hover effect - only when not disabled or loading */
+.selector-wrapper select:not(:disabled):not([disabled]):not([data-loading="true"]):hover {
+  border-color: var(--theme-hover, #5568d3);
+}
+
+/* Focus effect is handled inline via React state, but we add a fallback */
+.selector-wrapper select:focus {
+  outline: none;
+}
+
+/* Disabled state */
+.selector-wrapper select:disabled,
+.selector-wrapper select[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+  background-color: #f3f4f6;
+  color: var(--theme-textSecondary, #666666);
+}
+
+/* Loading state */
+.selector-wrapper select[data-loading="true"] {
+  cursor: wait;
+}
+
+/* Error state */
+.selector-wrapper select[data-error="true"] {
+  border-color: #e53e3e !important;
+}
+
+.selector-wrapper select[data-error="true"]:focus {
+  border-color: #e53e3e !important;
+  box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
+}
+
+/* Custom dropdown arrow styling */
+.selector-wrapper select::-ms-expand {
+  display: none; /* Hide default arrow in IE */
+}
+
+/* Option styling */
+.selector-wrapper select option {
+  padding: 0.5rem;
+  background-color: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #333333);
+}
+
+.selector-wrapper select option:disabled {
+  color: var(--theme-textSecondary, #9ca3af);
+  font-style: italic;
+}
+
+/* Ensure placeholder option uses secondary text color */
+.selector-wrapper select option[value=""] {
+  color: var(--theme-textSecondary, #666666);
+}
+

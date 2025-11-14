@@ -1,0 +1,100 @@
+/* Accounts Module Specific Styles */
+
+/* Expense Category Badge */
+.expense-category-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  background: #f0f0f0;
+  color: #666;
+  text-transform: uppercase;
+}
+
+/* Transaction Type Badge */
+.transaction-type-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.transaction-type-badge.income {
+  background: #d4edda;
+  color: #155724;
+}
+
+.transaction-type-badge.expense {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Amount Styles */
+.amount-income {
+  color: #27ae60;
+  font-weight: 700;
+}
+
+.amount-expense {
+  color: #e74c3c;
+  font-weight: 700;
+}
+
+/* Reports Tables */
+.reports-tables {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.reports-tables .table-container h3 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+/* Charts Container */
+.charts-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.chart-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.chart-card:hover {
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+  background: rgba(255, 255, 255, 0.85);
+}
+
+.chart-card h3 {
+  margin: 0 0 1.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .reports-tables {
+    grid-template-columns: 1fr;
+  }
+}

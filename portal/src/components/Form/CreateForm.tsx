@@ -8,6 +8,7 @@ export type FieldType = 'text' | 'email' | 'tel' | 'number' | 'date' | 'time' | 
 export interface FieldOption {
   value: string;
   label: string;
+  key?: string;
 }
 
 export interface FormField {
@@ -23,9 +24,9 @@ export interface FormField {
   defaultValue?: string | number | string[];
   halfWidth?: boolean; // For form-row (side-by-side) - DEPRECATED, use thirdWidth
   thirdWidth?: boolean; // For form-row (3 fields per row)
+  spanFull?: boolean; // For full-width fields
   multiple?: boolean; // For multi-select dropdowns
   disabled?: boolean; // For read-only/disabled fields
-  spanFull?: boolean; // Span full width in grid
 }
 
 export interface FormSection {
@@ -91,7 +92,8 @@ const CreateForm: React.FC<CreateFormProps> = ({
       console.log('Updating form data from initialData:', newData); // Debug log
       setFormData(newData);
     }
-  }, [initialData, fields]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialData]);
 
   const handleChange = (name: string, value: any) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -324,8 +326,8 @@ const CreateForm: React.FC<CreateFormProps> = ({
                   padding: '0.5rem',
                 }}
               >
-                {field.options?.map((option) => (
-                  <option key={option.value} value={option.value}>
+                {field.options?.map((option, optIndex) => (
+                  <option key={option.key || option.value || `option-${optIndex}`} value={option.value}>
                     {option.label}
                   </option>
                 ))}
@@ -348,8 +350,8 @@ const CreateForm: React.FC<CreateFormProps> = ({
                 }}
               >
                 <option value="">{field.placeholder || `Select ${field.label}`}</option>
-                {Array.isArray(field.options) && field.options.map((option) => (
-                  <option key={option.value} value={option.value}>
+                {Array.isArray(field.options) && field.options.map((option, optIndex) => (
+                  <option key={option.key || option.value || `option-${optIndex}`} value={option.value}>
                     {option.label}
                   </option>
                 ))}

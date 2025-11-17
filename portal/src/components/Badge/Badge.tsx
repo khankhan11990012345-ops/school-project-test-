@@ -134,9 +134,9 @@ const Badge = ({
       border: '1px solid rgba(239, 68, 68, 0.2)',
     },
     warning: {
-      backgroundColor: 'rgba(249, 115, 22, 0.1)',
-      color: '#fb923c',
-      border: '1px solid rgba(249, 115, 22, 0.2)',
+      backgroundColor: 'rgba(234, 179, 8, 0.1)', // yellow-500/10
+      color: '#eab308', // yellow-500 (bright yellow)
+      border: '1px solid rgba(234, 179, 8, 0.2)', // yellow-500/20
     },
     info: {
       backgroundColor: 'rgba(14, 165, 233, 0.1)',

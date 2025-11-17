@@ -27,6 +27,8 @@ import ExamsList from './pages/Admin/Exams/ExamsList';
 import CreateExam from './pages/Admin/Exams/CreateExam';
 import GradeExam from './pages/Admin/Exams/GradeExam';
 import ExamResults from './pages/Admin/Exams/ExamResults';
+import StudentExamResults from './pages/Admin/Exams/StudentExamResults';
+import AdmitCards from './pages/Admin/Exams/AdmitCards';
 import AccountsOverview from './pages/Admin/Accounts/AccountsOverview';
 import FeeManagement from './pages/Admin/Accounts/FeeManagement';
 import FeesCollection from './pages/Admin/Accounts/FeesCollection';
@@ -116,6 +118,8 @@ function App() {
           <Route path="exams/edit/:id" element={<CreateExam />} />
           <Route path="exams/grade/:id" element={<GradeExam />} />
           <Route path="exams/results" element={<ExamResults />} />
+          <Route path="exams/results/:id" element={<StudentExamResults />} />
+          <Route path="exams/admit-cards" element={<AdmitCards />} />
           {/* Accounts routes */}
           <Route path="accounts" element={<AccountsOverview />} />
           <Route path="accounts/fee-management" element={<FeeManagement />} />

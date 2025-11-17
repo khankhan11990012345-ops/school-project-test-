@@ -278,3 +278,21 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Hide number input spinners */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Hide spinners on text inputs with numeric input mode */
+input[type="text"][inputmode="numeric"]::-webkit-inner-spin-button,
+input[type="text"][inputmode="numeric"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

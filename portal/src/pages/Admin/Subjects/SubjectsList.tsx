@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BookOpen, GraduationCap, Clock, Calendar, Copy } from 'lucide-react';
+import { BookOpen, Clock, Calendar, Copy } from 'lucide-react';
 import { Badge } from '../../../components/Badge';
 import { ViewButton, EditButton, DeleteButton, AddButton } from '../../../components/Button/iconbuttons';
 import { Table, TableColumn } from '../../../components/Table';
@@ -633,12 +633,21 @@ const SubjectsList = () => {
     }
   };
 
+  // Helper function to extract compact grade format (e.g., "Grade 1A" -> "1A", "1A" -> "1A")
+  const getCompactGrade = (grade: string): string => {
+    if (!grade) return '';
+    // Remove "Grade" prefix and trim whitespace
+    const cleaned = grade.replace(/^Grade\s+/i, '').trim();
+    // Extract number and letter (e.g., "1A", "2B")
+    const match = cleaned.match(/(\d+)([A-Z])/i);
+    if (match) {
+      return `${match[1]}${match[2].toUpperCase()}`;
+    }
+    // If no match, return cleaned string
+    return cleaned;
+  };
+
   const columns: TableColumn<any>[] = [
-    { 
-      key: 'id', 
-      header: 'ID',
-      render: (_value, row) => row.code || row._id || row.id || 'N/A'
-    },
     {
       key: 'name',
       header: 'Subject Name',
@@ -666,25 +675,6 @@ const SubjectsList = () => {
       ),
     },
     {
-      key: 'description',
-      header: 'Description',
-      render: (value) => (
-        <span style={{ fontSize: '0.9rem', color: '#666' }}>
-          {value}
-        </span>
-      ),
-    },
-    {
-      key: 'grades',
-      header: 'Grades',
-      render: (_value, row) => (
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <GraduationCap size={14} style={{ color: '#666' }} />
-          <strong>{row.grades?.length || 0}</strong>
-        </div>
-      ),
-    },
-    {
       key: 'credits',
       header: 'Credits',
       render: (value) => <strong>{value}</strong>,
@@ -693,19 +683,34 @@ const SubjectsList = () => {
     {
       key: 'assignedGrades',
       header: 'Assigned Grades',
-      render: (_value, row) => (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem' }}>
-          {row.grades && row.grades.length > 0 ? (
-            row.grades.map((grade: string, index: number) => (
+      render: (_value, row) => {
+        const grades = row.grades || [];
+        if (grades.length === 0) {
+          return <span style={{ fontSize: '0.8rem', color: '#999' }}>No grades assigned</span>;
+        }
+        
+        // Extract compact grade formats and sort them
+        const compactGrades = grades
+          .map((grade: string) => getCompactGrade(grade))
+          .filter((g: string) => g) // Remove empty strings
+          .sort((a: string, b: string) => {
+            // Sort by number first, then by letter
+            const numA = parseInt(a.match(/\d+/)?.[0] || '0');
+            const numB = parseInt(b.match(/\d+/)?.[0] || '0');
+            if (numA !== numB) return numA - numB;
+            return a.localeCompare(b);
+          });
+        
+        return (
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.25rem', alignItems: 'center' }}>
+            {compactGrades.map((grade: string, index: number) => (
               <Badge key={index} variant="info" size="sm">
                 {grade}
               </Badge>
-            ))
-          ) : (
-            <span style={{ fontSize: '0.8rem', color: '#999' }}>No grades assigned</span>
-          )}
-        </div>
-      ),
+            ))}
+          </div>
+        );
+      },
     },
     {
       key: 'schedule',

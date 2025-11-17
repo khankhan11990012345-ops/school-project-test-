@@ -19,6 +19,23 @@ router.get('/', async (req: AuthRequest, res: Response): Promise<void> => {
     if (subject) filter.subject = subject;
 
     const exams = await Exam.find(filter).populate('subjectId', 'name code').populate('gradeAssignments.teacherId', 'name teacherId');
+    // Ensure all exams have examId (generate if missing)
+    let examIdCounter = 1;
+    for (const exam of exams) {
+      if (!exam.examId) {
+        // Find the highest existing examId number
+        const examsWithId = await Exam.find({ examId: { $exists: true, $ne: null } }).sort({ examId: -1 }).limit(1);
+        if (examsWithId.length > 0 && examsWithId[0].examId) {
+          const lastIdMatch = examsWithId[0].examId.match(/\d+$/);
+          if (lastIdMatch) {
+            examIdCounter = parseInt(lastIdMatch[0]) + 1;
+          }
+        }
+        exam.examId = `EXM${String(examIdCounter).padStart(3, '0')}`;
+        await exam.save();
+        examIdCounter++;
+      }
+    }
     res.json({
       success: true,
       count: exams.length,
@@ -46,6 +63,20 @@ router.get('/:id', async (req: AuthRequest, res: Response): Promise<void> => {
       });
       return;
     }
+    // Ensure exam has examId (generate if missing)
+    if (!exam.examId) {
+      // Find the highest existing examId number
+      const examsWithId = await Exam.find({ examId: { $exists: true, $ne: null } }).sort({ examId: -1 }).limit(1);
+      let examIdCounter = 1;
+      if (examsWithId.length > 0 && examsWithId[0].examId) {
+        const lastIdMatch = examsWithId[0].examId.match(/\d+$/);
+        if (lastIdMatch) {
+          examIdCounter = parseInt(lastIdMatch[0]) + 1;
+        }
+      }
+      exam.examId = `EXM${String(examIdCounter).padStart(3, '0')}`;
+      await exam.save();
+    }
     res.json({
       success: true,
       data: { exam },
@@ -64,17 +95,47 @@ router.get('/:id', async (req: AuthRequest, res: Response): Promise<void> => {
 // @access  Private (Admin, Teacher)
 router.post('/', authorize('admin', 'teacher'), async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    // If examId is provided in request, ensure it doesn't conflict
+    if (req.body.examId) {
+      const existing = await Exam.findOne({ examId: req.body.examId });
+      if (existing) {
+        // Remove examId from request, let pre-save hook generate a new one
+        delete req.body.examId;
+      }
+    }
+    
     const exam = await Exam.create(req.body);
+    // Reload to get the generated examId
+    const populatedExam = await Exam.findById(exam._id);
     res.status(201).json({
       success: true,
       message: 'Exam created successfully',
-      data: { exam },
+      data: { exam: populatedExam },
     });
-  } catch (error) {
-    res.status(500).json({
+  } catch (error: any) {
+    console.error('Error creating exam:', error);
+    
+    // Handle specific MongoDB errors
+    let errorMessage = error?.message || 'Unknown error';
+    let statusCode = 500;
+    
+    // Duplicate key error (unique constraint violation)
+    if (error.code === 11000) {
+      statusCode = 400;
+      const field = Object.keys(error.keyPattern || {})[0] || 'field';
+      errorMessage = `Duplicate ${field}: ${error.keyValue?.[field] || 'value'}. Please try again.`;
+    }
+    // Validation errors
+    else if (error.name === 'ValidationError') {
+      statusCode = 400;
+      const validationErrors = error.errors ? Object.values(error.errors).map((e: any) => e.message).join(', ') : '';
+      errorMessage = validationErrors || 'Validation error';
+    }
+    
+    res.status(statusCode).json({
       success: false,
       message: 'Error creating exam',
-      error: error instanceof Error ? error.message : 'Unknown error',
+      error: errorMessage,
     });
   }
 });
@@ -95,6 +156,20 @@ router.put('/:id', authorize('admin', 'teacher'), async (req: AuthRequest, res: 
         message: 'Exam not found',
       });
       return;
+    }
+    // Ensure examId exists (generate if missing)
+    if (!exam.examId) {
+      // Find the highest existing examId number
+      const examsWithId = await Exam.find({ examId: { $exists: true, $ne: null } }).sort({ examId: -1 }).limit(1);
+      let examIdCounter = 1;
+      if (examsWithId.length > 0 && examsWithId[0].examId) {
+        const lastIdMatch = examsWithId[0].examId.match(/\d+$/);
+        if (lastIdMatch) {
+          examIdCounter = parseInt(lastIdMatch[0]) + 1;
+        }
+      }
+      exam.examId = `EXM${String(examIdCounter).padStart(3, '0')}`;
+      await exam.save();
     }
     res.json({
       success: true,

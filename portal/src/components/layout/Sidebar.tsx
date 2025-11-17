@@ -180,6 +180,7 @@ const Sidebar = ({ role }: SidebarProps) => {
           subMenus: [
             { title: 'All Exams', path: '/exams' },
             { title: 'Results', path: '/exams/results' },
+            { title: 'Admit Cards', path: '/exams/admit-cards' },
           ],
         },
         {

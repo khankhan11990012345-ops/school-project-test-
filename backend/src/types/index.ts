@@ -153,6 +153,7 @@ export interface IExamGradeAssignment {
 
 export interface IExam extends Document {
   _id: string;
+  examId?: string;
   name: string;
   subject: string;
   subjectId?: string;
@@ -160,6 +161,7 @@ export interface IExam extends Document {
   classes: string[];
   date: Date;
   time: string;
+  startTime?: string;
   duration: string;
   totalMarks: number;
   passingMarks?: number;

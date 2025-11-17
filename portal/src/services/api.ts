@@ -180,17 +180,15 @@ export const api = {
 
   // Exam Results
   examResults: {
-    getAll: () => fetchWithAuth(`${API_BASE_URL}/exams/results/all`).then(handleResponse),
-    getById: (id: string | number) => fetchWithAuth(`${API_BASE_URL}/exams/results/${id}`).then(handleResponse),
-    getByExamId: (examId: string | number) => fetchWithAuth(`${API_BASE_URL}/exams/results/exam/${examId}`).then(handleResponse),
-    create: (data: any) => fetchWithAuth(`${API_BASE_URL}/exams/results`, {
+    getAll: () => fetchWithAuth(`${API_BASE_URL}/exam-results`).then(handleResponse),
+    getById: (id: string | number) => fetchWithAuth(`${API_BASE_URL}/exam-results/${id}`).then(handleResponse),
+    getByExamId: (examId: string | number) => fetchWithAuth(`${API_BASE_URL}/exam-results?examId=${examId}`).then(handleResponse),
+    create: (data: any) => fetchWithAuth(`${API_BASE_URL}/exam-results`, {
       method: 'POST',
-      
       body: JSON.stringify(data),
     }).then(handleResponse),
-    update: (id: string | number, data: any) => fetchWithAuth(`${API_BASE_URL}/exams/results/${id}`, {
+    update: (id: string | number, data: any) => fetchWithAuth(`${API_BASE_URL}/exam-results/${id}`, {
       method: 'PUT',
-      
       body: JSON.stringify(data),
     }).then(handleResponse),
     delete: (id: string | number) => fetchWithAuth(`${API_BASE_URL}/exams/results/${id}`, {

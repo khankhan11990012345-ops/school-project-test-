@@ -1,5 +1,14 @@
 // API service for backend communication
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+// Ensure API_BASE_URL always ends with /api
+const getApiBaseUrl = (): string => {
+  const envUrl = import.meta.env.VITE_API_URL || 'http://localhost:5001';
+  // Remove trailing slash if present
+  const baseUrl = envUrl.replace(/\/$/, '');
+  // Add /api if not already present
+  return baseUrl.endsWith('/api') ? baseUrl : `${baseUrl}/api`;
+};
+
+const API_BASE_URL = getApiBaseUrl();
 
 class ApiError extends Error {
   status: number;
